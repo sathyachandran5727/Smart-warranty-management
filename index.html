@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mart Warranty Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f4ee;--panel:#fffdf9;--ink:#1d2b2a;--mute:#66706c;--line:#ddd6c8;--brand:#2f4a45;--brand-d:#1f3330;--brand-l:#e4ebe3;--gold:#b39a6a;--warn:#8a6414;--warn-l:#f6ecd2;--bad:#a8402f;--bad-l:#f5e0da;--blue:#35607a;--blue-l:#e0eaef;
+--h:'Cormorant Garamond',Georgia,serif;--b:'Jost','Segoe UI',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{font:400 16px/1.6 var(--b);background:var(--bg);color:var(--ink);min-height:100vh}
+h1,h2,h3,h4{font-family:var(--h);font-weight:500;letter-spacing:-.01em}
+em{font-style:italic}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+header{position:sticky;top:0;z-index:10;background:#f7f4eef2;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1180px;margin:auto;padding:14px clamp(16px,4vw,40px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.nl{display:flex;gap:26px;align-items:center}
+.nl a,.dd>span{color:var(--ink);text-decoration:none;font-size:15px;cursor:pointer;padding:6px 0;border-bottom:1px solid transparent}
+.nl a:hover,.nl a.on,.dd>span:hover{border-color:var(--gold)}
+.dd{position:relative}
+.dd .m{display:none;position:absolute;top:100%;left:-14px;background:var(--panel);border:1px solid var(--line);padding:8px;min-width:250px;border-radius:6px}
+.dd:hover .m,.dd:focus-within .m{display:block}
+.m a{display:block;padding:9px 12px;border:0!important}.m a:hover{background:var(--brand-l)}
+.logo{font:600 30px/1 var(--h);text-decoration:none;color:var(--ink);text-align:center}
+.logo small{display:block;font:400 10px var(--b);letter-spacing:.28em;text-transform:uppercase;color:var(--mute);margin-top:4px}
+.bar .r{justify-self:end}
+main{max-width:1180px;margin:auto;padding:44px clamp(16px,4vw,40px) 80px}
+body[data-page=home] main{max-width:none;padding:0}
+.btn{border:1px solid var(--brand);border-radius:99px;padding:11px 26px;font-weight:500;cursor:pointer;background:var(--brand);color:#fff;text-decoration:none;display:inline-block;letter-spacing:.02em;font-size:15px;transition:.15s}
+.btn:hover{background:var(--brand-d)}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn.ghost:hover{background:var(--brand-l)}
+.btn.light{background:#f7f4ee;color:var(--brand-d);border-color:#f7f4ee}
+.btn.light:hover{background:#fff}
+.btn.ghl{background:transparent;color:#f7f4ee;border-color:#f7f4ee88}
+.btn.ghl:hover{background:#ffffff1a}
+.btn.sm{padding:6px 16px;font-size:13px}
+.btn.danger{background:var(--bad-l);color:var(--bad);border-color:transparent}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.top h1{font-size:clamp(34px,5vw,56px);line-height:1.05}
+.top p{color:var(--mute);margin-top:8px;max-width:60ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
+.stat{padding:20px 20px 18px 0}
+.stat span{color:var(--mute);font-size:14px}
+.stat strong{display:block;font:500 48px/1.1 var(--h);color:var(--brand)}
+.stat.w strong{color:var(--warn)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:26px;margin-bottom:36px}
+.panel h2{font-size:28px;margin-bottom:16px}
+form{display:grid;gap:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+label.f{display:grid;gap:5px;font-weight:500;font-size:14px}
+label.f span{font-weight:400;color:var(--mute);font-size:12px}
+input,select,textarea{border:1px solid #c9c1b0;border-radius:6px;padding:10px 12px;background:#fffdf9;width:100%}
+textarea{min-height:100px;resize:vertical}
+.up{display:grid;grid-template-columns:1fr 180px;gap:14px}
+.drop{border:1px dashed var(--gold);background:#faf6ec;border-radius:8px;padding:20px;text-align:center;cursor:pointer;display:grid;place-content:center;min-height:130px}
+.drop:hover,.drop.over{background:var(--brand-l);border-color:var(--brand)}
+.drop b{font:500 22px var(--h)}.drop small{color:var(--mute)}
+.pv{border-radius:8px;border:1px solid var(--line);background:#ece6d8 center/cover;display:grid;place-items:center;color:var(--mute);font-size:13px;min-height:130px}
+.err{color:var(--bad);font-size:13px;min-height:18px}
+.sec{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 14px;flex-wrap:wrap}
+.sec h2{font-size:32px}
+.sec input{max-width:270px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel);margin-bottom:36px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:13px;color:var(--mute);font-weight:500;background:#f1ece1}
+tr:last-child td{border-bottom:0}
+td small{color:var(--mute)}
+.pill{border-radius:99px;padding:2px 12px;font-size:12px;font-weight:500;white-space:nowrap;display:inline-block}
+.p-active,.p-resolved,.p-approved{background:var(--brand-l);color:var(--brand-d)}
+.p-expiring,.p-review{background:var(--warn-l);color:var(--warn)}
+.p-expired,.p-rejected{background:var(--bad-l);color:var(--bad)}
+.p-submitted{background:var(--blue-l);color:var(--blue)}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:36px}
+.ticket{background:var(--panel);border-radius:8px;display:flex;flex-direction:column;border:1px solid var(--line);
+-webkit-mask:radial-gradient(circle 9px at 0 62px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 62px,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 9px at 0 62px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 62px,#0000 98%,#000) right/51% 100% no-repeat}
+.ticket .head{padding:16px 18px 14px;display:flex;gap:12px;align-items:flex-start}
+.thumb{width:54px;height:54px;border-radius:6px;background:#ece6d8 center/cover;flex:none;display:grid;place-items:center;font-size:12px;font-weight:500;color:var(--mute);cursor:pointer;border:1px solid var(--line)}
+.ticket h3{font-size:24px;line-height:1.1}
+.ticket small{color:var(--mute)}
+.perf{border-top:1px dashed var(--gold);margin:0 14px}
+.ticket .body{padding:14px 18px 16px;display:grid;gap:10px}
+.meter{height:4px;background:#e7e0d1;border-radius:9px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--brand)}
+.meter.warn i{background:#c99a2e}.meter.bad i{background:var(--bad)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--mute)}
+.row b{color:var(--ink);font-weight:500}
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:14px}
+.claim .h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.claim h3{font-size:26px}
+.claim p{color:var(--mute);margin:6px 0 14px;font-size:15px}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.tl div{font-size:12px;color:var(--mute);border-top:3px solid var(--line);padding-top:6px}
+.tl div.d{border-color:var(--brand);color:var(--ink);font-weight:500}
+.tl div.x{border-color:var(--bad);color:var(--bad);font-weight:500}
+.login{max-width:480px;margin:20px auto}
+.login .panel{padding:34px}
+.empty{text-align:center;padding:44px 20px;color:var(--mute);background:var(--panel);border:1px dashed var(--line);border-radius:8px;margin-bottom:36px}
+.empty h3{color:var(--ink);font-size:28px;margin-bottom:4px}
+.empty .btn{margin-top:14px}
+dialog{border:0;border-radius:10px;padding:0;width:min(620px,94vw);max-height:92vh;box-shadow:0 20px 60px #0005;background:var(--bg)}
+dialog::backdrop{background:#1f3330bb}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:1}
+.dh h2{font-size:28px}.db{padding:24px}
+.x{background:none;border:0;font-size:28px;cursor:pointer;color:var(--mute);line-height:1}
+.prev{max-width:100%;max-height:60vh;border-radius:6px;display:block;margin:auto}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--brand-d);color:#fff;padding:12px 22px;border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90vw}
+.toast.on{opacity:1}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:99px;padding:4px;margin-bottom:18px;background:#f1ece1}
+.seg button{border:0;background:none;padding:8px;border-radius:99px;cursor:pointer;font-weight:500}
+.seg .on{background:var(--brand);color:#fff}
+.hint{margin-top:22px;padding:14px 16px;background:#f1ece1;border-radius:6px;font-size:13px;color:var(--mute);line-height:1.7}
+.hint b{color:var(--ink)}
+/* home */
+.hero{background:var(--brand-d);color:#f7f4ee;position:relative;overflow:hidden;padding:clamp(70px,12vw,150px) clamp(16px,4vw,40px) clamp(60px,9vw,110px);text-align:center}
+.hero svg{position:absolute;inset:0;width:100%;height:100%;opacity:.28}
+.hero .in{position:relative;max-width:920px;margin:auto}
+.eyebrow{letter-spacing:.22em;font-size:12px;text-transform:uppercase;color:#d8c79d;margin-bottom:22px}
+.hero h1{font-size:clamp(42px,7.4vw,92px);line-height:1;font-weight:500}
+.hero h1 em,.sect h2 em{color:var(--gold)}
+.hero h2{font-size:clamp(26px,3.4vw,40px);margin:52px 0 10px}
+.hero p.s{max-width:56ch;margin:0 auto 28px;color:#d6ddd8}
+.sect{padding:clamp(60px,8vw,110px) clamp(16px,4vw,40px)}
+.wrap{max-width:1180px;margin:auto}
+.sect h2{font-size:clamp(34px,4.6vw,58px);line-height:1.06}
+.lbl{letter-spacing:.2em;font-size:12px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.svc{display:grid;grid-template-columns:1fr 1.5fr auto;gap:24px;padding:28px 0;border-top:1px solid var(--line);align-items:baseline}
+.svc h3{font-size:32px;line-height:1.1}.svc p{color:var(--mute)}
+.svc a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--gold)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
+.split p{color:var(--mute);margin:18px 0}
+.split p b{color:var(--ink);font-weight:500}
+.art{aspect-ratio:4/3;border-radius:8px;background:linear-gradient(160deg,var(--brand),var(--brand-d));position:relative;overflow:hidden}
+.art svg{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.alt{background:#efe9dc}
+.dark{background:var(--brand-d);color:#f7f4ee}
+.dark .lbl{color:#d8c79d}
+.dark li{list-style:none;padding:16px 0;border-top:1px solid #ffffff2e;font-size:18px}
+.pil{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border-top:1px solid var(--line)}
+.pil div{padding:28px 26px 8px 0}.pil h3{font-size:32px}.pil p{color:var(--mute);font-size:15px;margin-top:8px}
+.cta{background:var(--brand-l)}
+.cta form{max-width:560px;margin-top:26px}
+footer{background:var(--brand-d);color:#cfd8d3;padding:64px clamp(16px,4vw,40px) 34px}
+.fg{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer h4{font-size:26px;color:#fff;margin-bottom:10px}
+footer a{color:inherit;text-decoration:none;display:block;margin:6px 0}footer a:hover{color:#fff}
+.fine{max-width:1180px;margin:36px auto 0;border-top:1px solid #ffffff2a;padding-top:20px;font-size:12px;color:#97a59e}
+@media(max-width:800px){.bar{grid-template-columns:1fr;justify-items:center}.nl{gap:16px}.bar .r{justify-self:center}.two,.three,.up,.split,.svc,.fg{grid-template-columns:1fr}.pil{grid-template-columns:1fr 1fr}.svc{gap:6px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<nav class="nl" aria-label="Main"><div class="dd"><span tabindex="0">How we help</span><div class="m"><a href="#sales" data-r="sales">Showroom warranty upload</a><a href="#customer" data-r="customer">Customer warranty claims</a></div></div><a href="#home" data-r="home">About us</a></nav>
+<a class="logo" href="#home">Mart<small>Warranty care</small></a>
+<div class="r" id="auth"></div></div></header>
+<main id="view"></main>
+<footer><div class="fg"><div><h4>Mart Warranty</h4><p style="max-width:42ch">Your warranty, kept calm. Registered at the showroom, claimed from anywhere, tracked until it is resolved.</p></div>
+<div><h4>Portals</h4><a href="#sales">Showroom upload</a><a href="#customer">Customer claims</a></div><div><h4>Company</h4><a href="#home">About us</a><a href="#customer">Track a claim</a></div></div>
+<p class="fine">Demo build. Warranty cards and claims are stored in your own browser and are not sent to any server. Replace with a backend before real use.</p></footer>
+
+<dialog id="dView"><div class="dh"><h2 id="vT">Warranty card</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db" id="vB"></div></dialog>
+<dialog id="dClaim"><div class="dh"><h2>Claim warranty</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db">
+<form id="fClaim"><p id="cInfo" style="color:var(--mute)"></p>
+ <div class="two"><label class="f">What is the problem?<select id="cIssue"><option>Not working / dead</option><option>Manufacturing defect</option><option>Physical damage</option><option>Performance issue</option><option>Missing parts</option><option>Other</option></select></label>
+ <label class="f">What would you like?<select id="cWant"><option>repair</option><option>replacement</option><option>refund</option></select></label></div>
+ <label class="f">Describe the issue<span>When it started and what you already tried</span><textarea id="cDesc" required minlength="15"></textarea></label>
+ <label class="f">Photo of the issue <span>Optional</span><input type="file" id="cFile" accept="image/*"></label>
+ <p class="err" id="cErr"></p><button class="btn">Submit claim</button></form></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEY='mart-warranty-v2';
+let S={cards:[],claims:[]},pending=null,claimCard=null,q='';
+try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Browser storage is full. Remove an old card or photo.')}};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),3200)}
+const fmt=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+const ph=s=>String(s).replace(/\D/g,'').slice(-10);
+const uid=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+function info(c){const s=new Date(c.date),e=new Date(s);e.setMonth(e.getMonth()+ +c.months);const days=Math.ceil((e-new Date())/864e5),tot=Math.max(1,Math.ceil((e-s)/864e5));
+ return{end:e,days,st:days<0?'expired':days<=30?'expiring':'active',pct:Math.max(0,Math.min(100,days/tot*100))}}
+const STEPS=['submitted','review','approved','resolved'],LBL={submitted:'Submitted',review:'Under review',approved:'Approved',resolved:'Resolved',rejected:'Rejected'},ST={active:'In warranty',expiring:'Expiring soon',expired:'Expired'};
+const open=c=>!['resolved','rejected'].includes(c.status);
+
+function readFile(f,pdf=true){return new Promise((res,rej)=>{
+ if(!f)return rej('Choose a file first.');
+ const r=new FileReader();r.onerror=()=>rej('Could not read that file.');
+ r.onload=()=>{if(f.type==='application/pdf'){if(!pdf||f.size>2097152)return rej(pdf?'PDF is larger than 2 MB. Upload a smaller file or a photo.':'Upload an image.');return res({type:'pdf',data:r.result})}
+  if(!f.type.startsWith('image/'))return rej('Upload an image or a PDF.');
+  const im=new Image();im.onerror=()=>rej('That image could not be opened.');
+  im.onload=()=>{const k=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);res({type:'img',data:c.toDataURL('image/jpeg',.72)})};im.src=r.result};
+ r.readAsDataURL(f)})}
+
+/* ================= SALES PAGE ================= */
+function salesPage(){
+ const act=S.cards.filter(c=>info(c).st!=='expired').length,oc=S.claims.filter(open).length;
+ const rows=S.cards.filter(c=>!q||(c.cust+c.phone+c.name+c.serial+c.invoice).toLowerCase().includes(q.toLowerCase())).reverse();
+ return`<div class="top"><div><h1>Showroom warranty upload</h1><p>Register a warranty card at the time of sale. The customer can then claim it from the Customer page using their phone number.</p></div></div>
+ <div class="stats"><div class="stat g"><span>Warranties registered</span><strong>${S.cards.length}</strong></div><div class="stat bl"><span>Currently in warranty</span><strong>${act}</strong></div><div class="stat w"><span>Open claims</span><strong>${oc}</strong></div></div>
+ <section class="panel"><h2>Register a new warranty</h2><form id="fSale">
+  <div class="up"><label class="drop" id="drop"><b>Upload warranty card or bill</b><small>Drop a photo or PDF here, or click to browse (max 2 MB)</small><input type="file" id="sFile" accept="image/*,application/pdf" hidden></label><div class="pv" id="sPv">No file yet</div></div>
+  <div class="three"><label class="f">Customer name<input id="sCust" required></label><label class="f">Customer mobile<input id="sPhone" type="tel" required pattern="[0-9+ ]{10,14}" placeholder="98765 43210"></label><label class="f">Invoice number<input id="sInv" required></label></div>
+  <div class="three"><label class="f">Product name<input id="sName" required placeholder="e.g. Front-load washing machine"></label><label class="f">Brand<input id="sBrand" required></label><label class="f">Serial or IMEI number<input id="sSerial" required></label></div>
+  <div class="three"><label class="f">Purchase date<input type="date" id="sDate" required max="${new Date().toISOString().slice(0,10)}" value="${new Date().toISOString().slice(0,10)}"></label>
+   <label class="f">Warranty period<select id="sMonths"><option value="6">6 months</option><option value="12" selected>1 year</option><option value="24">2 years</option><option value="36">3 years</option><option value="60">5 years</option></select></label>
+   <label class="f">Showroom<select id="sStore"><option>Mart Coimbatore – RS Puram</option><option>Mart Coimbatore – Gandhipuram</option><option>Mart Chennai – T. Nagar</option><option>Mart Online</option></select></label></div>
+  <p class="err" id="sErr"></p><div><button class="btn">Save warranty</button></div></form></section>
+ <div class="sec"><h2>Registered warranties</h2><input id="srch" type="search" placeholder="Search name, phone, serial" value="${esc(q)}" aria-label="Search"></div>
+ ${rows.length?`<div class="tw"><table><thead><tr><th>Customer</th><th>Product</th><th>Serial / Invoice</th><th>Expires</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(c=>{const i=info(c);return`<tr><td><b>${esc(c.cust)}</b><br><small>${esc(c.phone)}</small></td><td>${esc(c.name)}<br><small>${esc(c.brand)} · ${esc(c.store)}</small></td><td>${esc(c.serial)}<br><small>${esc(c.invoice)}</small></td><td>${fmt(i.end)}</td><td><span class="pill p-${i.st}">${ST[i.st]}</span></td><td><div class="acts"><button class="btn sm ghost" data-view="${c.id}">View card</button><button class="btn sm danger" data-del="${c.id}">Remove</button></div></td></tr>`}).join('')}</tbody></table></div>`
+ :`<div class="empty"><h3>${S.cards.length?'No match':'No warranties registered yet'}</h3><p>${S.cards.length?'Try a different search.':'Use the form above to register the first one.'}</p>${S.cards.length?'':'<button class="btn ghost" data-demo>Load sample data</button>'}</div>`}
+ <div class="sec"><h2>Claims received</h2></div>
+ ${S.claims.length?`<div class="tw"><table><thead><tr><th>Claim</th><th>Customer / Product</th><th>Issue</th><th>Status</th><th></th></tr></thead><tbody>${[...S.claims].reverse().map(c=>{const w=S.cards.find(x=>x.id===c.cid)||{};const n=STEPS[STEPS.indexOf(c.status)+1];return`<tr><td><b>${c.id}</b><br><small>${fmt(c.created)}</small></td><td>${esc(w.cust)} · ${esc(c.phone)}<br><small>${esc(w.name)}</small></td><td>${esc(c.issue)}, wants ${esc(c.want)}<br><small>${esc(c.desc)}</small></td><td><span class="pill p-${c.status}">${LBL[c.status]}</span></td><td><div class="acts">${c.photo?`<button class="btn sm ghost" data-photo="${c.id}">Photo</button>`:''}${open(c)&&n?`<button class="btn sm" data-adv="${c.id}">Mark ${LBL[n].toLowerCase()}</button>`:''}${open(c)?`<button class="btn sm danger" data-rej="${c.id}">Reject</button>`:''}</div></td></tr>`}).join('')}</tbody></table></div>`:`<div class="empty"><h3>No claims yet</h3><p>Customer claims will appear here for review.</p></div>`}`}
+
+/* ================= CUSTOMER PAGE ================= */
+/* ---- Sample user database (demo only: anyone can read this in the page source) ---- */
+const DB={users:[
+ {role:'staff',username:'sathyastaff@123',password:'1234',name:'Sathya (Staff)'},
+ {role:'customer',username:'sathyacustomer@1234',password:'1234',name:'Sathya',phone:'9876543210'}]};
+let loginRole='customer';
+const user=()=>{try{return JSON.parse(sessionStorage.getItem('mart-session'))}catch(e){return null}};
+const me=()=>user()?.phone||'';
+function customerPage(){
+  const cards=S.cards.filter(c=>ph(c.phone)===me()),ids=cards.map(c=>c.id),claims=S.claims.filter(c=>ids.includes(c.cid));
+ const name=cards[0]?.cust.split(' ')[0];
+ return`<div class="top"><div><h1>${name?'Hi '+esc(name)+', here are your warranties':'Your warranties'}</h1><p>Signed in as ${esc(user().username)}. Pick a product and claim it in a minute.</p></div><button class="btn ghost" data-logout>Sign out</button></div>
+ <div class="sec"><h2>My products</h2></div>
+ ${cards.length?`<div class="grid">${cards.map(ticket).join('')}</div>`:`<div class="empty"><h3>No warranty found for this number</h3><p>Ask the showroom to register your warranty card with this mobile number.</p><button class="btn ghost" data-demo>Load sample data</button></div>`}
+ <div class="sec"><h2>My claims</h2></div>
+ ${claims.length?[...claims].reverse().map(claim).join(''):`<div class="empty"><h3>No claims yet</h3><p>Claims you file will show here with live progress.</p></div>`}`}
+function ticket(c){const i=info(c),oc=S.claims.filter(x=>x.cid===c.id&&open(x)).length;
+ return`<article class="ticket"><div class="head"><div class="thumb" data-view="${c.id}" title="View uploaded card" style="${c.file.type==='img'?`background-image:url(${c.file.data})`:''}">${c.file.type==='pdf'?'PDF':''}</div><div style="flex:1;min-width:0"><h3>${esc(c.name)}</h3><small>${esc(c.brand)} · S/N ${esc(c.serial)}</small></div><span class="pill p-${i.st}">${ST[i.st]}</span></div>
+ <div class="perf"></div><div class="body"><div class="meter ${i.st==='expiring'?'warn':i.st==='expired'?'bad':''}"><i style="width:${i.pct}%"></i></div>
+ <div class="row"><span>${i.days<0?'Expired '+fmt(i.end):i.days+' days left · ends '+fmt(i.end)}</span><b>${c.months>=12?c.months/12+' yr':c.months+' mo'}</b></div>
+ <div class="row"><span>${esc(c.store)}</span><span>${oc?oc+' open claim'+(oc>1?'s':''):''}</span></div>
+ <div class="acts"><button class="btn sm" data-claim="${c.id}" ${i.st==='expired'?'disabled title="Warranty has expired"':''}>Claim warranty</button><button class="btn sm ghost" data-view="${c.id}">View card</button></div></div></article>`}
+function claim(c){const w=S.cards.find(x=>x.id===c.cid)||{name:'Removed product',brand:''},rej=c.status==='rejected',idx=STEPS.indexOf(c.status);
+ const tl=STEPS.map((s,n)=>{const bad=rej&&n===1,on=!rej&&n<=idx;return`<div class="${bad?'x':on?'d':''}">${bad?'Rejected':LBL[s]}${bad||on?'<br><span style="font-weight:400">'+fmt(bad?c.log.rejected:c.log[s])+'</span>':''}</div>`}).join('');
+ return`<article class="claim"><div class="h"><div><h3>${esc(w.name)} <small style="font:400 14px var(--b);color:var(--mute)">${esc(w.brand)}</small></h3><small style="color:var(--mute)">Claim ${c.id} · ${esc(c.issue)} · wants ${esc(c.want)}</small></div><span class="pill p-${c.status}">${LBL[c.status]}</span></div>
+ <p>${esc(c.desc)}</p><div class="tl">${tl}</div>${c.note?`<p style="color:var(--ink);margin:0 0 4px"><b>Store note:</b> ${esc(c.note)}</p>`:''}${c.photo?`<div class="acts"><button class="btn sm ghost" data-photo="${c.id}">View photo</button></div>`:''}</article>`}
+
+/* ================= ROUTER ================= */
+const RIP='<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#d8c79d" stroke-width="1" aria-hidden="true"><circle cx="400" cy="560" r="180"/><circle cx="400" cy="560" r="290"/><circle cx="400" cy="560" r="400"/><circle cx="400" cy="560" r="510"/><circle cx="400" cy="560" r="620"/></svg>';
+function homePage(){return`<section class="hero">${RIP}<div class="in"><p class="eyebrow">Showroom-backed · Transparent · Built on care</p>
+<h1>Imagine your warranty quietly taking care of <em>itself</em>.</h1><h2>Warranty care, built around you.</h2>
+<p class="s">Your showroom registers your card at the time of sale. You claim, track and resolve it from one calm place.</p>
+<div class="acts" style="justify-content:center"><a class="btn light" href="#customer">File a claim</a><a class="btn ghl" href="#login-staff">Staff sign in</a></div></div></section>
+<section class="sect"><div class="wrap"><h2>How we help.</h2><div style="margin-top:34px">
+<div class="svc"><h3>Warranty registration</h3><p>Showroom staff upload the card or bill with the serial number and invoice, so nothing is lost in a drawer.</p><a href="#sales">Explore</a></div>
+<div class="svc"><h3>Coverage tracking</h3><p>See every product you own, how many days of cover remain, and the original card whenever you need it.</p><a href="#customer">Explore</a></div>
+<div class="svc"><h3>Simple claims</h3><p>Describe the problem, attach a photo and choose repair, replacement or refund. No forms to print.</p><a href="#customer">Explore</a></div>
+<div class="svc"><h3>Clear progress</h3><p>Follow each claim from submitted to resolved, with a note from the store if anything needs your attention.</p><a href="#customer">Explore</a></div>
+<div style="border-top:1px solid var(--line)"></div></div></div></section>
+<section class="sect alt"><div class="wrap split"><div><p class="lbl">Our mission</p><h2>Prepared for every <em>purchase</em>.</h2><p>We want you to buy with confidence and never wonder where your warranty went. Every card is stored once, at the showroom, and stays with you.</p><p><b>Every claim is answered by a named showroom team, within two working days.</b></p><a class="btn" href="#customer">File a claim</a></div><div class="art">${RIP}</div></div></section>
+<section class="sect dark"><div class="wrap split"><div><p class="lbl">Our promise</p><h2>We take the time to get your claim <em>right</em>.</h2></div><ul><li>Every warranty registered at the point of sale</li><li>Your original card always one click away</li><li>Status updates before you need to ask</li><li>Plain reasons for every decision</li></ul></div></section>
+<section class="sect"><div class="wrap"><p class="lbl">The warranty service of tomorrow</p><h2>The kind of service that lets you breathe easier.</h2>
+<div class="pil"><div><h3>Be heard.</h3><p>Describe the problem in your own words. A person reads every claim.</p></div><div><h3>Feel safe.</h3><p>See exactly what is covered, what is not, and why.</p></div><div><h3>Feel looked after.</h3><p>We update your claim as it moves, so you are never chasing us.</p></div><div><h3>Rely on it.</h3><p>Your card, serial number and invoice are kept safe for the full warranty period.</p></div></div></div></section>
+<section class="sect cta"><div class="wrap"><h2>Let's get your warranty <em>sorted</em>.</h2><p style="color:var(--mute);margin:10px 0 24px">Sign in to see your warranty cards, or sign in as showroom staff to register a new one.</p><div class="acts"><a class="btn" href="#login">Customer sign in</a><a class="btn ghost" href="#login-staff">Staff sign in</a></div></div></section>`}
+function loginPage(){const st=loginRole==='staff';return`<div class="login"><div class="panel"><h1 style="font-size:42px;margin-bottom:6px">Sign in</h1><p style="color:var(--mute);margin-bottom:18px">${st?'Showroom staff sign in to upload warranty cards and review claims.':'Customers sign in to see their warranties and file claims.'}</p>
+<div class="seg"><button type="button" data-role="customer" class="${st?'':'on'}">Customer</button><button type="button" data-role="staff" class="${st?'on':''}">Staff</button></div>
+<form id="fLogin"><label class="f">Username<input id="lU" autocomplete="username" required></label><label class="f">Password<input id="lPw" type="password" autocomplete="current-password" required></label><p class="err" id="lErr"></p><button class="btn">Sign in as ${st?'staff':'customer'}</button></form>
+<div class="hint"><b>Demo accounts</b><br>Staff: sathyastaff@123 / 1234<br>Customer: sathyacustomer@1234 / 1234</div></div></div>`}
+function routeRole(){const h=location.hash.slice(1);if(h==='login-staff')loginRole='staff';else if(h==='login')loginRole='customer'}
+function render(){const h=location.hash.slice(1),u=user();let r=h.startsWith('login')?'login':['sales','customer'].includes(h)?h:'home';
+ if(r==='sales'&&u?.role!=='staff'){location.replace('#login-staff');return}
+ if(r==='customer'&&u?.role!=='customer'){location.replace('#login');return}
+ document.querySelectorAll('[data-r]').forEach(a=>a.classList.toggle('on',a.dataset.r===r));
+ $('#auth').innerHTML=u?`<span style="margin-right:12px;font-size:14px">${esc(u.name)}</span><button class="btn ghost sm" data-logout>Sign out</button>`:'<a class="btn" href="#login">Sign in</a>';
+ document.body.dataset.page=r;$('#view').innerHTML=r==='sales'?salesPage():r==='customer'?customerPage():r==='login'?loginPage():homePage();}
+addEventListener('hashchange',()=>{routeRole();render();scrollTo(0,0)});
+
+function show(title,f,extra=''){$('#vT').textContent=title;$('#vB').innerHTML=(f.type==='pdf'?`<iframe src="${f.data}" style="width:100%;height:60vh;border:0" title="PDF"></iframe>`:`<img class="prev" src="${f.data}" alt="${esc(title)}">`)+extra;$('#dView').showModal()}
+function setPrev(){const p=$('#sPv');p.style.backgroundImage=pending.type==='img'?`url(${pending.data})`:'';p.textContent=pending.type==='pdf'?'PDF attached':''}
+async function pick(f){try{pending=await readFile(f);setPrev();$('#sErr').textContent=''}catch(x){pending=null;$('#sErr').textContent=x}}
+
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+ if(t.hasAttribute('data-close'))return t.closest('dialog').close();
+ if(d.view){const c=S.cards.find(x=>x.id===d.view);return show(c.name,c.file,`<p style="margin-top:12px;color:var(--mute)">${esc(c.brand)} · S/N ${esc(c.serial)} · bought ${fmt(c.date)} at ${esc(c.store)}</p>`)}
+ if(d.photo)return show('Issue photo',{type:'img',data:S.claims.find(x=>x.id===d.photo).photo});
+ if(d.del){if(confirm('Remove this warranty and its claims?')){S.cards=S.cards.filter(x=>x.id!==d.del);S.claims=S.claims.filter(x=>x.cid!==d.del);save();render();toast('Warranty removed')}return}
+ if(d.adv){const c=S.claims.find(x=>x.id===d.adv),n=STEPS[STEPS.indexOf(c.status)+1];c.status=n;c.log[n]=Date.now();save();render();return toast('Claim '+c.id+' marked '+LBL[n].toLowerCase())}
+ if(d.rej){const why=prompt('Reason for rejecting (the customer will see this):');if(why===null)return;const c=S.claims.find(x=>x.id===d.rej);c.status='rejected';c.log.rejected=Date.now();c.note=why||'Not covered under warranty terms.';save();render();return}
+ if(d.claim){claimCard=S.cards.find(x=>x.id===d.claim);$('#cInfo').textContent=claimCard.name+' · '+claimCard.brand+' · S/N '+claimCard.serial;$('#fClaim').reset();$('#cErr').textContent='';$('#dClaim').showModal();return}
+ if(d.role){loginRole=d.role;render();return}
+ if(t.hasAttribute('data-logout')){sessionStorage.removeItem('mart-session');if(location.hash==='#home')render();else location.hash='#home';toast('Signed out');return}
+ if(t.hasAttribute('data-demo'))demo()});
+
+document.addEventListener('change',e=>{if(e.target.id==='sFile')pick(e.target.files[0])});
+document.addEventListener('input',e=>{if(e.target.id==='srch'){q=e.target.value;const pos=e.target.selectionStart;render();const s=$('#srch');s.focus();s.setSelectionRange(pos,pos)}});
+['dragover','dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{const z=e.target.closest&&e.target.closest('#drop');if(!z)return;e.preventDefault();z.classList.toggle('over',ev==='dragover');if(ev==='drop')pick(e.dataTransfer.files[0])}));
+
+document.addEventListener('submit',async e=>{e.preventDefault();const id=e.target.id;
+ if(id==='fSale'){if(!pending)return $('#sErr').textContent='Upload the warranty card or bill first.';
+  S.cards.push({id:uid('W'),cust:$('#sCust').value.trim(),phone:ph($('#sPhone').value),invoice:$('#sInv').value.trim(),name:$('#sName').value.trim(),brand:$('#sBrand').value.trim(),serial:$('#sSerial').value.trim(),store:$('#sStore').value,date:$('#sDate').value,months:+$('#sMonths').value,file:pending});
+  pending=null;save();render();toast('Warranty saved. The customer can now claim it with their mobile number.')}
+ if(id==='fLogin'){const u=DB.users.find(x=>x.role===loginRole&&x.username===$('#lU').value.trim()&&x.password===$('#lPw').value);
+  if(!u)return $('#lErr').textContent='Username or password is incorrect for a '+loginRole+' account.';
+  sessionStorage.setItem('mart-session',JSON.stringify({role:u.role,username:u.username,name:u.name,phone:u.phone||''}));
+  const t=u.role==='staff'?'#sales':'#customer';if(location.hash===t)render();else location.hash=t;toast('Welcome, '+u.name)}
+ if(id==='fClaim'){let photo=null;const f=$('#cFile').files[0];if(f){try{photo=(await readFile(f,false)).data}catch(x){return $('#cErr').textContent=x}}
+  const cid='MW-'+(1000+S.claims.length+1),now=Date.now();
+  S.claims.push({id:cid,cid:claimCard.id,issue:$('#cIssue').value,want:$('#cWant').value,desc:$('#cDesc').value.trim(),phone:claimCard.phone,photo,status:'submitted',created:now,log:{submitted:now}});
+  save();$('#dClaim').close();render();toast('Claim '+cid+' submitted. We will review it within 2 working days.')}});
+
+function demo(quiet){const art=(t,c)=>{const cv=document.createElement('canvas');cv.width=600;cv.height=380;const x=cv.getContext('2d');x.fillStyle=c;x.fillRect(0,0,600,380);x.fillStyle='#fff';x.font='bold 34px sans-serif';x.fillText('MART WARRANTY CARD',40,80);x.font='28px sans-serif';x.fillText(t,40,150);x.fillText('Authorised service 1800-000-0000',40,330);return{type:'img',data:cv.toDataURL('image/jpeg',.7)}};
+ const ago=m=>{const d=new Date();d.setMonth(d.getMonth()-m);return d.toISOString().slice(0,10)};
+ const base={cust:'Sathya',phone:'9876543210',store:'Mart Coimbatore – RS Puram'};
+ S.cards=[{...base,id:'Wdemo1',invoice:'INV-20871',name:'Front-load washing machine',brand:'LG',serial:'LG8812KX90',date:ago(5),months:24,file:art('LG Washer 7kg','#0e7c66')},
+ {...base,id:'Wdemo2',invoice:'INV-20902',name:'55" 4K Smart TV',brand:'Sony',serial:'SN55X7710',date:ago(11),months:12,file:art('Sony 55 inch TV','#2457c5')},
+ {...base,id:'Wdemo3',invoice:'INV-19110',name:'Mixer grinder',brand:'Preethi',serial:'PR0421889',date:ago(16),months:12,file:art('Preethi Mixer','#8a4b08')}];
+ const n=Date.now();S.claims=[{id:'MW-1001',cid:'Wdemo2',issue:'Not working / dead',want:'repair',desc:'Screen shows vertical lines after 10 minutes of use. Tried a factory reset.',phone:'9876543210',photo:null,status:'review',created:n-864e5*2,log:{submitted:n-864e5*2,review:n-864e5}}];
+ save();render();if(!quiet)toast('Sample data loaded')}
+
+if(!location.hash)location.hash='#home';
+routeRole();
+try{if(!localStorage.getItem(KEY))demo(true)}catch(e){}
+render();
+</script>
+</body>
+</html>
